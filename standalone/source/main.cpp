@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <MMCore.h>
 
 auto main(int argc, char** argv) -> int {
   const std::unordered_map<std::string, greeter::LanguageCode> languages{
@@ -19,6 +20,17 @@ auto main(int argc, char** argv) -> int {
   std::string language;
   std::string name;
 
+  CMMCore *mmc = new CMMCore();
+  std::cout << "Core version: " << mmc->getAPIVersionInfo() << std::endl;
+  std::string mdir = "/Users/talley/Library/Application Support/pymmcore-plus/mm/Micro-Manager-2.0.1-20230118";
+  mmc->setDeviceAdapterSearchPaths({mdir});
+  std::cout << "patjhs: " << mmc->getDeviceAdapterSearchPaths()[0] << std::endl;
+  mmc->loadSystemConfiguration("/Users/talley/Desktop/MMConfig_demo.cfg");
+  std::cout << "Loaded config" << std::endl;
+  mmc->snapImage();
+  
+  std::cout << mmc->getImage() << std::endl;
+  
   // clang-format off
   options.add_options()
     ("h,help", "Show help")
